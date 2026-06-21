@@ -1,0 +1,97 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "neet-api"
+version = "0.1.0"
+description = "NEET Platform - FastAPI Backend"
+requires-python = ">=3.11"
+
+[tool.poetry]
+name = "neet-api"
+version = "0.1.0"
+description = "NEET Platform - FastAPI Backend"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "app"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+# Web Framework
+fastapi = "^0.104.1"
+uvicorn = {version = "^0.24.0", extras = ["standard"]}
+pydantic = "^2.5.0"
+pydantic-settings = "^2.1.0"
+
+# Database
+sqlalchemy = {version = "^2.0.0", extras = ["asyncio"]}
+asyncpg = "^0.29.0"
+alembic = "^1.12.1"
+
+# Security
+python-jose = {version = "^3.3.0", extras = ["cryptography"]}
+argon2-cffi = "^23.1.0"
+pydantic-extra-types = "^2.3.0"
+email-validator = "^2.1.0"
+
+# Async Task Queue
+celery = "^5.3.4"
+redis = "^5.0.1"
+
+# HTTP Client
+httpx = "^0.25.2"
+aiohttp = "^3.9.1"
+
+# Rate Limiting
+slowapi = "^0.1.9"
+
+# Monitoring/Logging
+python-multipart = "^0.0.6"
+structlog = "^23.2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+pytest-cov = "^4.1.0"
+ruff = "^0.1.8"
+mypy = "^1.7.1"
+black = "^23.12.0"
+isort = "^5.13.2"
+httpx = "^0.25.2"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = ["E", "F", "W", "I", "N", "UP", "S", "BLE", "B"]
+ignore = ["E501"]
+
+[tool.ruff.isort]
+known-first-party = ["app"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = ["alembic.*", "celery.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--cov=app --cov-report=term-missing --cov-report=html --cov-fail-under=80"
+python_files = ["test_*.py", "*_test.py"]
